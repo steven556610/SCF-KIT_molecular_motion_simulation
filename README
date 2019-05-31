@@ -1,0 +1,16 @@
+# protein-structure
+
+When you want to analysis a pdb file, you want to get analyzablbe and usable data.Thi s process is done by computer and programming.In the first step, we should write the correct code.Secondly, you need to have comparable data to comfirm your data correctly, because machine whill not make mistake in this step. If something happen wrong, it must be human written wrong code or wrong logical throught.Each step to next step need to check previous code, this is a good habbit.The third step is to draw your algorithm and throught , trying to test what are you doing.Your code have already had amount of comment when you coding, but process and result should be sorted completely and explain.Analyze the pdb file (protein data bank), the file contains the atomic position, atom, amino acid, and which part of the protein block, input, capture, analysis, output.
+
+My project is focued on analysis the data of protein structure, PDB file.If you wanted to show a structure of protein, you can go to download chimera and use https://genome.ucsc.edu/ to download a file named your_protein.pdb .If you want to see the detailed information of PDB file, you can use notepad++ to open it, and you will see each atom, amino acid, and point(x,y,z).The destination of projection is to analysis document's information of  domin2 and domin3 whether move circlely around ligand.In order to reach our goals, we firstly scratch data in file, and then execute program to calculate the reslut.Finally, we output the data and use Excel to draw the trace of protein moving.
+
+process:
+Fistly, you input your file in the function which you define and then your data will be sliced and stored in array.
+Secondly, calucate angle, eigenvalues, and eigenvalues vactors.
+Third, try to execute 2000 frames with a program in a file.
+Forth, calculate projection plane , projection point, projetion angle ,and projection vector.
+Fifth, use the result had been calculated and draw the trace of protein moving or trying to use another way to express data preformence.
+
+
+
+
