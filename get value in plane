@@ -1,0 +1,49 @@
+'''
+第一個遇到的問題就是，前面的計算，我們所得到的值，都會是正的，但如果你在立體空間，投影你的結構，在立體空間的平面上，他就會分布在四個象限，
+要表達投影點到兩軸的距離，我們需要先判斷他在哪一個像縣內，然後再用投影的角度進行推算，至於我們要如何知道他再哪一個象限，我們需要第二個向量來做基準，
+由投影向量與作為標準的兩個向量來算角度，進而知道他在哪個象限內，得知再哪個象限以後，我們就可以用類似後修飾的方式，再用角度的cos,sin乘上長度，算出來的長度
+去添加正負號，使之變成有正負號的不同
+'''
+ef get_projection_axis_value_firstZone(projection_vector_d3_ct,standard_vector):
+    '''算出與投影點與兩軸的距離,belong to domin3，鈍角的狀況'''
+    value = []
+    a = calculate_angle(projection_vector_d3_ct,standard_vector)
+    value_origin = math.sqrt(projection_vector_d3_ct[0]**2 + projection_vector_d3_ct[1]**2 + projection_vector_d3_ct[2]**2)
+    a = a * math.pi /180  #超級重要，如果要把三角函數套回，要把角度換回徑度
+    x = value_origin * math.cos(a)
+    y = value_origin * math.sin(a)
+    value = [x,y]
+    return value
+
+def get_projection_axis_value_secondZone(projection_vector_d3_ct,standard_vector):
+    '''算出與投影點與兩軸的距離,belong to domin3，鈍角的狀況'''
+    value = []
+    a = calculate_angle(projection_vector_d3_ct,standard_vector)
+    value_origin = math.sqrt(projection_vector_d3_ct[0]**2 + projection_vector_d3_ct[1]**2 + projection_vector_d3_ct[2]**2)
+    a = a * math.pi /180  #超級重要，如果要把三角函數套回，要把角度換回徑度
+    x = value_origin * math.cos(a)
+    y = value_origin * math.sin(a)
+    value = [x,y]
+    return value
+
+def get_projection_axis_value_thirdZone(projection_vector_d3_ct,standard_vector):
+    '''算出與投影點與兩軸的距離,belong to domin3，鈍角的狀況'''
+    value = []
+    a = -(calculate_angle(projection_vector_d3_ct,standard_vector))
+    value_origin = math.sqrt(projection_vector_d3_ct[0]**2 + projection_vector_d3_ct[1]**2 + projection_vector_d3_ct[2]**2)
+    a = a * math.pi /180  #超級重要，如果要把三角函數套回，要把角度換回徑度
+    x = value_origin * math.cos(a)
+    y = value_origin * math.sin(a)
+    value = [x,y]
+    return value
+
+def get_projection_axis_value_forthZone(projection_vector_d2_ct,standard_vector):
+    '''算出與投影點與兩軸的距離, belong to domin2，銳角的狀況'''
+    value = []
+    a = -(calculate_angle(projection_vector_d2_ct,standard_vector))
+    value_origin = math.sqrt(projection_vector_d2_ct[0]**2 + projection_vector_d2_ct[1]**2 + projection_vector_d2_ct[2]**2)
+    a = a * math.pi / 180 #超級重要，如果要把三角函數套回，要把角度換回徑度
+    x = value_origin * math.cos(a)
+    y = value_origin * math.sin(a)
+    value = [x,y]
+    return value
