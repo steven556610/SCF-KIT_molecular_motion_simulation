@@ -1,0 +1,25 @@
+vector_picture = '專題__vector.bild' 
+picture = open(vector_picture,'w') 
+picture.write('.color red\n')
+picture.write('.arrow %f %f %f %f %f %f\n' \
+                     %(center[0],center[1],center[2],center2[0],center2[1],center2[2]))  
+picture.write('.arrow %f %f %f %f %f %f\n' \
+                     %(center[0],center[1],center[2],center3[0],center3[1],center3[2])) 
+picture.write('.color blue\n')
+picture.write('.arrow %f %f %f %f %f %f\n' \
+                     %(center[0],center[1],center[2],point1[0],point1[1],point1[2]))  
+picture.write('.arrow %f %f %f %f %f %f\n' \
+                     %(center[0],center[1],center[2],point2[0],point2[1],point2[2]))   
+picture.write('.arrow %f %f %f %f %f %f\n'\
+                     %(center[0],center[1],center[2],point3[0],point3[1],point3[2]))
+picture.write('.color 10\n')
+picture.write('.arrow %f %f %f %f %f %f\n' \
+                     %(center[0],center[1],center[2],projection_point_domin2_center[0],projection_point_domin2_center[1],projection_point_domin2_center[2]))   
+picture.write('.arrow %f %f %f %f %f %f\n'\
+                     %(center2[0],center2[1],center2[2],point4[0],point4[1],point4[2])) 
+picture.write('.arrow %f %f %f %f %f %f\n' \
+                     %(center[0],center[1],center[2],projection_point_domin3_center[0],projection_point_domin3_center[1],projection_point_domin3_center[2]))   
+picture.write('.arrow %f %f %f %f %f %f\n'\
+                     %(center3[0],center3[1],center3[2],point7[0],point7[1],point7[2]))  
+# print('.arrow',center,center3,sep=' ',end = '\n',file=vector_picture)   
+picture.close() 
