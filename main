@@ -6,6 +6,7 @@ from sympy import *
 from projection_PlaneAndPoint import *
 
 def main(): #主程式
+'''用numpy的mean,dot,transpose(),inerita,e_value等，還有最後的排序，得到三個向量的特徵值，後埋才來進行特徵值的計算和其在結構上的表現'''
     for j in range(1,2001):
         pdb_name = r"E:\paris_專題_大三寒假\frame" +"\\"+ str(j) + r'.pdb'
         scale_factor = 20 
