@@ -1,0 +1,136 @@
+import numpy as np
+import math
+from analysis_document import *
+from distane_between_axis import *
+from sympy import *
+from projection_PlaneAndPoint import *
+
+def main(): #主程式
+    for j in range(1,2001):
+        pdb_name = r"E:\paris_專題_大三寒假\frame" +"\\"+ str(j) + r'.pdb'
+        scale_factor = 20 
+        xyz = read_pdb_xyz_ligand(pdb_name)  
+        coord = np.array(xyz, float) 
+        center = np.mean(coord, 0)
+        coord = coord - center 
+        inertia = np.dot(coord.transpose(), coord) 
+        e_values, e_vectors = np.linalg.eig(inertia) 
+        for i in range(len(e_values)):
+            if e_values[i] == max(e_values): 
+                eval1 = e_values[i] 
+                axis1 = e_vectors[:,i] 
+            elif e_values[i] == min(e_values):  
+                eval3 = e_values[i]
+                axis3 = e_vectors[:,i] 
+            else:
+                eval2 = e_values[i] 
+                axis2 = e_vectors[:,i]  
+        point1 = 3 * scale_factor * axis1 + center 
+        point2 = 2 * scale_factor * axis2 + center
+        point3 = 1 * scale_factor * axis3 + center  
+
+        xyz2 = read_pdb_xyz_domin2(pdb_name) 
+        coord2 = np.array(xyz2, float) 
+        center2 = np.mean(coord2, 0) 
+        coord2 = coord2 - center2  
+        inertia2 = np.dot(coord2.transpose(), coord2)   
+        e_values2, e_vectors2 = np.linalg.eig(inertia2) 
+        for k in range(len(e_values2)): 
+            if e_values2[k] == max(e_values2):
+                eval4 = e_values2[k] 
+                axis4 = e_vectors2[:,k] 
+            elif e_values2[k] == min(e_values2): 
+                eval6 = e_values2[k]
+                axis6 = e_vectors2[:,k] 
+            else:
+                eval5 = e_values2[k] 
+                axis5 = e_vectors2[:,k] 
+        point4 = 1 * scale_factor * axis4 + center2 
+        point5 = 1 * scale_factor * axis5 + center2
+        point6 = 1 * scale_factor * axis6 + center2    
+
+        xyz3 = read_pdb_xyz_domin3(pdb_name)  
+        coord3 = np.array(xyz3, float)
+        center3 = np.mean(coord3, 0) 
+        coord3 = coord3 - center3
+        inertia3 = np.dot(coord3.transpose(), coord3) 
+        e_values3, e_vectors3 = np.linalg.eig(inertia3) 
+        for m in range(len(e_values3)): 
+            if e_values3[m] == max(e_values3):
+                eval7 = e_values3[m] 
+                axis7 = e_vectors3[:,m] 
+            elif e_values3[m] == min(e_values3): 
+                eval9 = e_values3[m]  
+                axis9 = e_vectors3[:,m] 
+            else:
+                eval8 = e_values3[m] 
+                axis8 = e_vectors3[:,m] 
+        point7 = 1 * scale_factor * axis7 + center3
+        point8 = 1 * scale_factor * axis8 + center3 
+        point9 = 1 * scale_factor * axis9 + center3
+
+        center_vector1 = list(center2-center)
+        center_vector2 = list(center3-center)
+        standard_vector = list(point3-center)      #投影x軸
+        projection_vector1 = list(point1 - center) #法向量
+        projection_vector2 = list(point2 - center) #投影y軸
+        #沒有用numpy.array不能直接做陣列內的值相減
+        projection_point_domin2_center = np.array(projection_point(center2,center,point2,point3,projection_vector1)) 
+        projection_point_domin2_pca = np.array(projection_point(point4,center,point2,point3,projection_vector1)) 
+        projection_point_domin3_center = np.array(projection_point(center3,center,point2,point3,projection_vector1))  
+        projection_point_domin3_pca = np.array(projection_point(point7,center,point2,point3,projection_vector1)) 
+        projection_vector_d2_pca = list(projection_point_domin2_pca - projection_point_domin2_center) 
+        projection_vector_d3_pca = list(projection_point_domin3_pca - projection_point_domin3_center)  
+        projection_vector_d2_ct = list(projection_point_domin2_center - center)
+        projection_vector_d3_ct = list(projection_point_domin3_center - center)
+
+        check_angle = calculate_angle(projection_vector_d2_ct,standard_vector)
+        compare_angle = calculate_angle(projection_vector_d2_ct,projection_vector2)
+
+        check_angle2 = calculate_angle(projection_vector_d3_ct,standard_vector)       #與x軸的夾角
+        compare_angle2 = calculate_angle(projection_vector_d3_ct,projection_vector2)  #與y軸的夾角
+
+        if check_angle < 90 and compare_angle < 90:
+            #print(1)
+            angle_x = check_angle
+            x1 = get_projection_axis_value_firstZone(projection_vector_d2_ct,standard_vector)[0]
+            y1 = get_projection_axis_value_firstZone(projection_vector_d2_ct,standard_vector)[1]
+        elif check_angle > 90 and compare_angle < 90 :
+            #print(2)
+            angle_x = check_angle
+            x1 = get_projection_axis_value_secondZone(projection_vector_d2_ct,standard_vector)[0]
+            y1 = get_projection_axis_value_secondZone(projection_vector_d2_ct,standard_vector)[1]
+
+        elif check_angle > 90 and compare_angle > 90:
+            #print(3)
+            angle_x = -check_angle
+            x1 = get_projection_axis_value_thirdZone(projection_vector_d2_ct,standard_vector)[0]
+            y1 = get_projection_axis_value_thirdZone(projection_vector_d2_ct,standard_vector)[1]
+
+        elif check_angle < 90 and compare_angle > 90:
+            #print(4)
+            angle_x = -check_angle
+            x1 = get_projection_axis_value_forthZone(projection_vector_d2_ct,standard_vector)[0]
+            y1 = get_projection_axis_value_forthZone(projection_vector_d2_ct,standard_vector)[1]
+
+        if check_angle2 < 90 and compare_angle2 < 90:
+            #print(1)
+            angle_x2 = check_angle2
+            x2 = get_projection_axis_value_firstZone(projection_vector_d3_ct,standard_vector)[0]
+            y2 = get_projection_axis_value_firstZone(projection_vector_d3_ct,standard_vector)[1]
+        elif check_angle2 > 90 and compare_angle2 < 90 :
+            #print(2)
+            angle_x2 = check_angle2
+            x2 = get_projection_axis_value_secondZone(projection_vector_d3_ct,standard_vector)[0]
+            y2 = get_projection_axis_value_secondZone(projection_vector_d3_ct,standard_vector)[1]
+        elif check_angle2 > 90 and compare_angle2 > 90:
+            #print(3)
+            angle_x2= -check_angle2
+            x2 = get_projection_axis_value_thirdZone(projection_vector_d3_ct,standard_vector)[0]
+            y2 = get_projection_axis_value_thirdZone(projection_vector_d3_ct,standard_vector)[1]
+        elif check_angle2 < 90 and compare_angle2 > 90:
+            #print(4)
+            angle_x2 = -check_angle2
+            x2 = get_projection_axis_value_forthZone(projection_vector_d3_ct,standard_vector)[0]
+            y2 = get_projection_axis_value_forthZone(projection_vector_d3_ct,standard_vector)[1]
+
