@@ -1,0 +1,31 @@
+pdb_old_file = r'E:\paris_專題_大三寒假\改變z軸座標\framexxx2824 - 複製.pdb' #要更改的pdb檔
+x = 100 #你想更改的數，填上去以後，z軸就會跟著改變
+pdb_new_file = r'E:\paris_專題_大三寒假\改變z軸座標\new2.pdb'
+
+def sort(pdb_name,pdb_new,x):
+    file_data = ''
+    with open(pdb_name,'r',encoding = 'utf-8') as f :
+        for line in f:
+             if line.startswith("ATOM") and  line[17:21].strip() =='POPC': 
+                  if line[47:54] in line :    
+                        z = float(line[46:56].strip())
+                        b = z -x
+                        if b>1000 and b>=100:
+                            a = ('%.3f '% float(b))
+                        elif b>100 and b>=10:
+                             a = ('%.3f  '% float(b))
+                        elif b>10 and b>0 :
+                             a = ('%.3f   '% float(b))
+                        elif  b<0 and -10<b:
+                             a = ('%.3f   '% float(b))
+                        elif b<=-10 and b>-100:
+                             a = ('%.3f  '% float(b))
+                        elif b<=-100 and b>-1000:
+                             a = ('%.3f '% float(b))
+                        line = line.replace(line[46:55],str(a))
+             file_data += line           
+    with open(pdb_new,'w',encoding = "utf_8") as f1:
+           f1.write(file_data)
+    print("done")
+
+print(sort(pdb_old_file,pdb_new_file,x))
